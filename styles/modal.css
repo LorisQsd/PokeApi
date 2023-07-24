@@ -1,0 +1,192 @@
+:root {
+    --white: #efe3e3;
+}
+
+/* MODAL */
+.modal {
+    padding: 2rem 3rem;
+    border-style: none;
+    border: 1px solid black;
+    border-radius: 1rem;
+    box-shadow: 0 1px 5px black;
+    color: black;
+    background-color: var(--white);
+    position: relative;
+    outline: none;
+}
+
+.pokemon__info {
+    position: fixed;
+}
+
+.bi-x-square {
+    position: absolute;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+    transition: 300ms;
+}
+
+.bi-x-square:hover {
+    background-color: #ad3939;
+}
+
+/* MODAL CONTENT */
+.infos-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.modal__title {
+    color: var(--background-color);
+    font-size: 2rem;
+    text-align: center;
+}
+
+.modal__title span {
+    font-size: 0.6em;
+}
+
+.modal__img {
+    width: 50%;
+}
+
+.infos-right {
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.modal__subtitle {
+    font-size: 1.5rem;
+}
+
+.types-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pokemon__types {
+    width: fit-content;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--white);
+}
+
+.stats__title {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+}
+
+.stats__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stats__list-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stats__list-item span:nth-child(1) {
+    width: 100px;
+}
+
+.stats__list-item span:nth-child(2) {
+    width: 100px;
+}
+
+.progress-bar--bg {
+    width: 225px;
+    height: 25px;
+    border-radius: 0.5rem;
+    background-color: #ad3939;
+    border: 3px solid #ad3939;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar--prog {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: var(--white);
+}
+
+/* COLORS */
+.acier {
+    background-color: #aaaabb;
+}
+
+.combat {
+    background-color: #bb5544;
+}
+
+.dragon {
+    background-color: #7766ee;
+}
+
+.eau {
+    background-color: #2980ef;
+}
+
+.électrik {
+    background-color: #ffbb33;
+}
+
+.feu {
+    background-color: #e62829;
+}
+
+.glace {
+    background-color: #77ddff;
+}
+
+.insecte {
+    background-color: #91a119;
+}
+
+.normal {
+    background-color: #9fa19f;
+}
+
+.plante {
+    background-color: green;
+}
+
+.poison {
+    background-color: purple;
+}
+
+.psy {
+    background-color: #ef4179;
+}
+
+.roche {
+    background-color: #bbaa66;
+}
+
+.sol {
+    background-color: #ddbb55;
+}
+
+.spectre {
+    background-color: #6666bb;
+}
+
+.ténèbres {
+    background-color: #665544;
+}
+
+.vol {
+    background-color: #6699ff;
+}
+
+.fée {
+    background-color: #ef71ef;
+}

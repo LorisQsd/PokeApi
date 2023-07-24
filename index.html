@@ -6,6 +6,7 @@
     <title>Poke API</title>
     <link rel="stylesheet" href="./styles/reset.css">
     <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/modal.css">
     <link rel="stylesheet" href="./styles/animations.css">
 
     <!-- Google Font : Bree Serif -->
@@ -42,6 +43,36 @@
 
             <ul class="pokemon__list">
             </ul>
+
+            <dialog class="modal pokemon__info">
+
+                <div class="infos-container">
+
+                    <div class="infos-right">
+                        
+                        <div class="types-container">
+                            <!-- <div class="pokemon__types plante"><p class="type__paragraph">Plante</p></div> -->
+                        </div>
+
+                        <h4 class="stats__title">Statistiques</h4>
+
+                        <ul class="stats__list">
+                            <!-- <li class="stats__list-item">
+                                <span>PV</span>
+                                <span>60</span>
+                                <span class="progress-bar--bg">
+                                    <span class="progress-bar--prog" data-power="60"></span>
+                                </span>
+                            </li> -->
+                        </ul>
+
+                        <p class="modal__paragraph">Taille: </p>
+
+                    </div>
+                </div>
+                
+                <button class="btn btn--modal"></button>
+            </dialog>
         </main>
     </div>
     

@@ -17,6 +17,11 @@
     animation-delay: 0.30s;
 }
 
+.from-top {
+    position: relative;
+    animation: 0.5s ease-in-out fromTop;
+}
+
 /* ANIMATION */
 @keyframes loading {
     from {
@@ -24,5 +29,16 @@
     }
     to {
         bottom: 20px;
+    }
+}
+
+@keyframes fromTop {
+    from {
+        top: -25%;
+        opacity: 0;
+    }
+    to {
+        top: 0;
+        opacity: 1;
     }
 }
