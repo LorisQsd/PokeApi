@@ -18,7 +18,6 @@
 }
 
 .from-top {
-    position: relative;
     animation: 0.5s ease-in-out fromTop;
 }
 
