@@ -16,7 +16,7 @@ form.addEventListener("submit", function(e) {
 
 // EVENTS LISTENERS
 // Recherche par id
-searchById.addEventListener("keypress", function (e) {
+searchById.addEventListener("keypress", async function (e) {
   if (e.key === "Enter"){// Si la touche "Entrer" est appuyée
     const id = e.target.value;// On récupère la valeur de l'input
 
@@ -24,8 +24,9 @@ searchById.addEventListener("keypress", function (e) {
     loader.style.display = "block";// On affiche le loader
 
     clearActiveClass();
+    const pokemon = await getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
 
-    getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
+    buildCards(pokemon)
   }
 });
 
@@ -104,7 +105,10 @@ function buildModalInfos(pokemon){
   closeBtn.classList.add("bi");
   closeBtn.classList.add("bi-x-square");
   dialog.appendChild(closeBtn);
-  closeBtn.addEventListener("click", ()=>{dialog.close();});
+  closeBtn.addEventListener("click", ()=>{
+    dialog.classList.add("opacity");
+    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475);
+  });
 
   // div InfosContainer
   const infosContainer = document.createElement("div");
@@ -228,16 +232,14 @@ function openModal(){
 function closeModal(event){
   const dialogDimensions = dialog.getBoundingClientRect();
 
-  dialog.classList.add("opacity");
-
   if (
     event.clientX < dialogDimensions.left ||
       event.clientX > dialogDimensions.right ||
       event.clientY < dialogDimensions.top ||
       event.clientY > dialogDimensions.bottom
   ) {
-    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475)
-    ;
+    dialog.classList.add("opacity");
+    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475);
   }
 }
 

@@ -6,7 +6,7 @@
 
 .loader__img {
     position: relative;
-    animation: 0.5s ease-in-out alternate infinite loading;
+    animation: 0.5s ease alternate infinite loading;
 }
 
 .loader__img:nth-child(2) {
@@ -37,11 +37,11 @@
 
 @keyframes fromTop {
     from {
-        top: -25%;
+        transform: translateY(-25%);
         opacity: 0;
     }
     to {
-        top: 0;
+        transform: translateY(0);
         opacity: 1;
     }
 }
