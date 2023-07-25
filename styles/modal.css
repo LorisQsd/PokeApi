@@ -13,7 +13,6 @@
     background-color: var(--white);
     position: relative;
     outline: none;
-    overflow: hidden;
 }
 
 .pokemon__info {
