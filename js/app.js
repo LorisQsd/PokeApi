@@ -1,3 +1,5 @@
+import { getGenerations, getPokemonById, getPokemonsByGen } from "./dataMapper.js";
+
 // SELECTEURS
 const form = document.querySelector(".form");
 const pokemonList = document.querySelector(".pokemon__list");
@@ -30,66 +32,30 @@ searchById.addEventListener("keypress", function (e) {
 dialog.addEventListener("click", closeModal);
 
 // FONCTIONS ASYNCHRONES
-/** (Async) Récupère les données d'un pokemon selon son id */
-async function getPokemonById(id){
-  try {
-    const response = await fetch(`https://api-pokemon-fr.vercel.app/api/v1/pokemon/${id}`);
-
-    if (!response.ok){
-      throw new Error(`${response.status}`);
-    }
-
-    const data = await response.json();
-
-    buildCards(data);
-  } catch (error) {
-    console.trace(error);
-  }
-}
-
 /** (Async) Récupère les données de tous les pokemons de la génération séléctionnée */
-async function fetchPokemonsByGen(event){
+async function handlePokemonsByGen(event){
   pokemonList.textContent = "";
   loader.style.display = "block";
 
   clearActiveClass();
 
   event.target.classList.add("btn--active");
-  try {
-    const response = await fetch(`https://api-pokemon-fr.vercel.app/api/v1/gen/${event.target.getAttribute("data-generation")}`);
+  const generation = event.target.getAttribute("data-generation");
 
-    if (!response.ok) {
-      throw new Error(`${response.status}`);
+  const pokemons = await getPokemonsByGen(generation);
 
-    }
-    const data = await response.json();
+  pokemons.forEach(pokemon => {
+    buildCards(pokemon);
+  });
 
-    data.forEach(pokemon => {
-      buildCards(pokemon);
-    });
-  } catch (error) {
-    console.trace(error);
-  }
 }
 
 async function showPokemonInfos(event){
 
-  try {
-    const response = await fetch(`https://api-pokemon-fr.vercel.app/api/v1/pokemon/${event.currentTarget.getAttribute("data-id")}`);
+  const data = await getPokemonById(event.currentTarget.getAttribute("data-id"))
 
-    if (!response.ok){
-      throw new Error(`${response.status}`);
-    }
-
-    const data = await response.json();
-
-    console.log(data);
-
-    buildModalInfos(data);
-    openModal();
-  } catch (error) {
-    console.trace(error);
-  }
+  buildModalInfos(data);
+  openModal();
 }
 // FONCTIONS CLASSIQUES
 function buildCards(pokemon){
@@ -123,13 +89,14 @@ function buildGenerationBtn(id){
   generationContainer.appendChild(btn);
   loader.style.display = "none";
 
-  btn.addEventListener("click", fetchPokemonsByGen);
+  btn.addEventListener("click", handlePokemonsByGen);
 }
 
 function buildModalInfos(pokemon){
   // CLEAR MODAL
   dialog.textContent = "";
   dialog.classList.add("from-top");
+  setTimeout(() => {dialog.classList.remove("from-top")}, 500)
 
   // BUILD
   // button close modal
@@ -222,12 +189,12 @@ function buildModalInfos(pokemon){
 
     const progressBarValue = document.createElement("div");
     progressBarValue.classList.add("progress-bar--prog");
-    progressBarValue.style.width = ((pokemon.stats[stat] / 225)*100).toFixed(2) + "%";
+    progressBarValue.style.width = ((pokemon.stats[stat] / 255)*100).toFixed(2) + "%";
     progressBarValue.animate(
       [
         // keyframes
         { width: "0%" },
-        { width: ((pokemon.stats[stat] / 225)*100).toFixed(2) + "%" },
+        { width: ((pokemon.stats[stat] / 255)*100).toFixed(2) + "%" },
       ],
       {
         // timing options
@@ -260,7 +227,8 @@ function openModal(){
 
 function closeModal(event){
   const dialogDimensions = dialog.getBoundingClientRect();
-  dialog.classList.remove("from-top");
+
+  dialog.classList.add("opacity");
 
   if (
     event.clientX < dialogDimensions.left ||
@@ -268,29 +236,19 @@ function closeModal(event){
       event.clientY < dialogDimensions.top ||
       event.clientY > dialogDimensions.bottom
   ) {
-    dialog.close();
+    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475)
+    ;
   }
 }
 
 /** (Async) Création d'une première liste (151 premiers pokemons) à l'arrivée sur la page */
 async function initAPICall(){
-  try {
-    const response = await fetch("https://api-pokemon-fr.vercel.app/api/v1/gen");
+  const generations = await getGenerations();
 
-    if (!response.ok) {
-      throw new Error(`${response.status}`);
-    }
+  generations.forEach( generation => {
+    buildGenerationBtn(generation.generation);
+  });
 
-    const data = await response.json();
-
-    data.forEach( generation => {
-      buildGenerationBtn(generation.generation);
-    });
-
-
-  } catch (error) {
-    console.trace(error);
-  }
 }
 
 document.addEventListener("DOMContentLoaded", initAPICall);

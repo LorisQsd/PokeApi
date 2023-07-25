@@ -17,6 +17,7 @@
 
 .pokemon__info {
     position: fixed;
+    opacity: 1;
 }
 
 .bi-x-square {
@@ -101,7 +102,7 @@
 }
 
 .progress-bar--bg {
-    width: 225px;
+    width: 255px;
     height: 25px;
     border-radius: 0.5rem;
     background-color: #ad3939;
@@ -113,8 +114,8 @@
 .progress-bar--prog {
     position: absolute;
     left: 0;
-    top: 0;
-    height: 100%;
+    top: -2px;
+    height: 110%;
     background-color: var(--white);
 }
 

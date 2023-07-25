@@ -40,8 +40,10 @@
 
 .input-group {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem 0 2rem 0;
 }
 
 .input-text {
