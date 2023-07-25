@@ -33,7 +33,7 @@ searchById.addEventListener("keypress", async function (e) {
 dialog.addEventListener("click", closeModal);
 
 // FONCTIONS ASYNCHRONES
-/** (Async) Récupère les données de tous les pokemons de la génération séléctionnée */
+/** (Async) Affiche tous les pokemons de la génération sélectionnée */
 async function handlePokemonsByGen(event){
   pokemonList.textContent = "";
   loader.style.display = "block";
@@ -243,7 +243,7 @@ function closeModal(event){
   }
 }
 
-/** (Async) Création d'une première liste (151 premiers pokemons) à l'arrivée sur la page */
+/** (Async) Génération des boutons en fonction du nombre de génération dispo dans l'API */
 async function initAPICall(){
   const generations = await getGenerations();
 
