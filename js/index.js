@@ -1,4 +1,4 @@
-import { getGenerations, getPokemonById, getPokemonsByGen } from "./dataMapper.js";
+import pokemonAPI from "./api.js";
 
 // SELECTEURS
 const form = document.querySelector(".form");
@@ -24,9 +24,9 @@ searchById.addEventListener("keypress", async function (e) {
     loader.style.display = "block";// On affiche le loader
 
     clearActiveClass();
-    const pokemon = await getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
+    const pokemon = await pokemonAPI.getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
 
-    buildCards(pokemon)
+    buildCards(pokemon);
   }
 });
 
@@ -43,7 +43,7 @@ async function handlePokemonsByGen(event){
   event.target.classList.add("btn--active");
   const generation = event.target.getAttribute("data-generation");
 
-  const pokemons = await getPokemonsByGen(generation);
+  const pokemons = await pokemonAPI.getPokemonsByGen(generation);
 
   pokemons.forEach(pokemon => {
     buildCards(pokemon);
@@ -53,7 +53,7 @@ async function handlePokemonsByGen(event){
 
 async function showPokemonInfos(event){
 
-  const data = await getPokemonById(event.currentTarget.getAttribute("data-id"))
+  const data = await pokemonAPI.getPokemonById(event.currentTarget.getAttribute("data-id"));
 
   buildModalInfos(data);
   openModal();
@@ -97,7 +97,7 @@ function buildModalInfos(pokemon){
   // CLEAR MODAL
   dialog.textContent = "";
   dialog.classList.add("from-top");
-  setTimeout(() => {dialog.classList.remove("from-top")}, 500)
+  setTimeout(() => {dialog.classList.remove("from-top");}, 500);
 
   // BUILD
   // button close modal
@@ -107,7 +107,7 @@ function buildModalInfos(pokemon){
   dialog.appendChild(closeBtn);
   closeBtn.addEventListener("click", ()=>{
     dialog.classList.add("opacity");
-    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475);
+    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity"); }, 475);
   });
 
   // div InfosContainer
@@ -239,13 +239,13 @@ function closeModal(event){
       event.clientY > dialogDimensions.bottom
   ) {
     dialog.classList.add("opacity");
-    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity") }, 475);
+    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity"); }, 475);
   }
 }
 
 /** (Async) Génération des boutons en fonction du nombre de génération dispo dans l'API */
 async function initAPICall(){
-  const generations = await getGenerations();
+  const generations = await pokemonAPI.getGenerations();
 
   generations.forEach( generation => {
     buildGenerationBtn(generation.generation);
