@@ -1,11 +1,13 @@
 import pokemonAPI from "./api.js";
+import modalHandler from "./modal.js";
+// import components from "./components.js";
+import utils from "./utils.js";
 
 // SELECTEURS
 const form = document.querySelector(".form");
 const pokemonList = document.querySelector(".pokemon__list");
 const generationContainer = document.querySelector(".generation-container");
 const searchById = document.querySelector(".search-by-id");
-const loader = document.querySelector(".loader");
 
 const dialog = document.querySelector("dialog");
 
@@ -21,7 +23,7 @@ searchById.addEventListener("keypress", async function (e) {
     const id = e.target.value;// On récupère la valeur de l'input
 
     pokemonList.textContent = "";// AVANT de créer une carte, on nettoie la liste afin que les éléments ne se superposent pas.
-    loader.style.display = "block";// On affiche le loader
+    utils.showLoader();
 
     clearActiveClass();
     const pokemon = await pokemonAPI.getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
@@ -30,13 +32,13 @@ searchById.addEventListener("keypress", async function (e) {
   }
 });
 
-dialog.addEventListener("click", closeModal);
+dialog.addEventListener("click", modalHandler.closeModal);
 
 // FONCTIONS ASYNCHRONES
 /** (Async) Affiche tous les pokemons de la génération sélectionnée */
 async function handlePokemonsByGen(event){
   pokemonList.textContent = "";
-  loader.style.display = "block";
+  utils.showLoader();
 
   clearActiveClass();
 
@@ -56,7 +58,7 @@ async function showPokemonInfos(event){
   const data = await pokemonAPI.getPokemonById(event.currentTarget.getAttribute("data-id"));
 
   buildModalInfos(data);
-  openModal();
+  modalHandler.openModal();
 }
 // FONCTIONS CLASSIQUES
 function buildCards(pokemon){
@@ -76,19 +78,19 @@ function buildCards(pokemon){
   pokemonList.appendChild(li);// Ajout du li dans la liste
   li.appendChild(img);// Ajout d'une image dans le list item
   li.appendChild(title);// Ajout du titre dans le list item
-  loader.style.display = "none";
+  utils.hideLoader();
 
   li.addEventListener("click", showPokemonInfos);
 }
 
-function buildGenerationBtn(id){
+function generationBtn(id){
   const btn = document.createElement("btn"); // Création d'un <button>
   btn.classList.add("generation__btn");
   btn.setAttribute("data-generation", id);
   btn.textContent = `Génération ${id}`;
 
   generationContainer.appendChild(btn);
-  loader.style.display = "none";
+  utils.hideLoader();
 
   btn.addEventListener("click", handlePokemonsByGen);
 }
@@ -224,31 +226,13 @@ function clearActiveClass(){
 }
 
 // MODAL HANDLER
-/** Gère la fenêtre modal pour les règles */
-function openModal(){
-  dialog.showModal();
-}
-
-function closeModal(event){
-  const dialogDimensions = dialog.getBoundingClientRect();
-
-  if (
-    event.clientX < dialogDimensions.left ||
-      event.clientX > dialogDimensions.right ||
-      event.clientY < dialogDimensions.top ||
-      event.clientY > dialogDimensions.bottom
-  ) {
-    dialog.classList.add("opacity");
-    setTimeout(() => { dialog.close(), dialog.classList.remove("opacity"); }, 475);
-  }
-}
 
 /** (Async) Génération des boutons en fonction du nombre de génération dispo dans l'API */
 async function initAPICall(){
   const generations = await pokemonAPI.getGenerations();
 
   generations.forEach( generation => {
-    buildGenerationBtn(generation.generation);
+    generationBtn(generation.generation);
   });
 
 }
