@@ -4,17 +4,12 @@ import modalHandler from "./modal.js";
 import utils from "./utils.js";
 
 // SELECTEURS
-const form = document.querySelector(".form");
 const pokemonList = document.querySelector(".pokemon__list");
 const generationContainer = document.querySelector(".generation-container");
 const searchById = document.querySelector(".search-by-id");
-
 const dialog = document.querySelector("dialog");
 
-// Prevent Default sur le comportement du formulaire
-form.addEventListener("submit", function(e) {
-  e.preventDefault();
-});
+utils.preventSubmitForm("pokemon-form-by-id");
 
 // EVENTS LISTENERS
 // Recherche par id
@@ -25,7 +20,7 @@ searchById.addEventListener("keypress", async function (e) {
     pokemonList.textContent = "";// AVANT de créer une carte, on nettoie la liste afin que les éléments ne se superposent pas.
     utils.showLoader();
 
-    clearActiveClass();
+    utils.clearActiveClass();
     const pokemon = await pokemonAPI.getPokemonById(id);// On passe cette valeur en argument de la fonction getPokemonById
 
     buildCards(pokemon);
@@ -40,7 +35,7 @@ async function handlePokemonsByGen(event){
   pokemonList.textContent = "";
   utils.showLoader();
 
-  clearActiveClass();
+  utils.clearActiveClass();
 
   event.target.classList.add("btn--active");
   const generation = event.target.getAttribute("data-generation");
@@ -215,14 +210,6 @@ function buildModalInfos(pokemon){
 
   }
 
-}
-
-function clearActiveClass(){
-  generationContainer.querySelectorAll(".generation__btn").forEach(btn => {
-    if (btn.classList.contains("btn--active")){
-      btn.classList.remove("btn--active");
-    }
-  });
 }
 
 // MODAL HANDLER

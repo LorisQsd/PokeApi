@@ -22,6 +22,11 @@ const utils = {
         btn.classList.remove("btn--active");
       }
     });
+  },
+  preventSubmitForm(formId){
+    document.getElementById(formId).addEventListener("submit", (event) => {
+      event.preventDefault();
+    });
   }
 };
 
